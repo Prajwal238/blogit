@@ -197,7 +197,7 @@ class _SignInNavigate extends StatelessWidget {
               text: Constants.textSignUp,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Constants.kDarkBlueColor,
+                color: Constants.kGreenColor,
               )),
         ]));
   }
@@ -222,7 +222,7 @@ class _ForgotPassword extends StatelessWidget {
               text: Constants.textReset,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Constants.kDarkBlueColor,
+                color: Constants.kGreenColor,
               )),
         ]));
   }

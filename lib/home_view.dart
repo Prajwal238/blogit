@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:blogit/add_blog.dart';
+import 'package:blogit/blog_page.dart';
 import 'package:blogit/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +37,7 @@ class HomeView extends StatelessWidget {
                 child: FloatingActionButton(
                   backgroundColor: Colors.black,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: ((context) => AddBlog())));
+                    Navigator.push(context, MaterialPageRoute(builder: ((context) => const AddBlog())));
                   },
                   elevation: 5.0,
                   child: const Icon(
@@ -124,29 +123,90 @@ class HomeView extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: state.listOfBlogs.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            child: ListTile(
-                              title: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    state.listOfBlogs[index].title,
-                                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    state.listOfBlogs[index].displayName!,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontStyle: FontStyle.italic,
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 8.0, 20, 8),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.38,
+                              width: MediaQuery.of(context).size.width * 0.7,
+                              child: Card(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                color: Colors.white,
+                                shadowColor: const Color.fromARGB(255, 233, 231, 231),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Row(
+                                        children: [
+                                          Hero(
+                                            tag: "User-$index",
+                                            child: CircleAvatar(
+                                              backgroundColor: Constants.kBlackColor,
+                                              radius: 18,
+                                              child: Text(
+                                                state.listOfBlogs[index].displayName![0].toUpperCase(),
+                                                style: const TextStyle(color: Constants.kGreyColor),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 6.0),
+                                            child: Text(
+                                              state.listOfBlogs[index].displayName!,
+                                              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              subtitle: Padding(
-                                padding: const EdgeInsets.only(top: 18.0),
-                                child: Text(
-                                  state.listOfBlogs[index].content,
-                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              state.listOfBlogs[index].title,
+                                              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 6),
+                                              child: SizedBox(
+                                                height: MediaQuery.of(context).size.height * 0.15,
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Text(state.listOfBlogs[index].content,
+                                                    style: const TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.normal,
+                                                        color: Color.fromARGB(255, 70, 70, 70)),
+                                                    overflow: TextOverflow.fade),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context).size.height * 0.06,
+                                          width: MediaQuery.of(context).size.width * 0.8,
+                                          child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(backgroundColor: Constants.kBlackColor),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context, MaterialPageRoute(builder: (_) => BlogPage(index: index)));
+                                              },
+                                              child: const Text(
+                                                Constants.textReadMore,
+                                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                                              )),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
@@ -156,7 +216,10 @@ class HomeView extends StatelessWidget {
                     );
                   }
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(
+                    color: Constants.kBlackColor,
+                  ));
                 }
               },
             ));

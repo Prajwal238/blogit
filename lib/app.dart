@@ -1,6 +1,7 @@
 import 'package:blogit/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'bloc/authentication/auth_bloc.dart';
 import 'constants/constants.dart';
@@ -16,6 +17,7 @@ class App extends StatelessWidget {
         home: const BlocNavigate(),
         title: Constants.title,
         theme: ThemeData(
+          textTheme: GoogleFonts.montserratTextTheme(),
           appBarTheme: const AppBarTheme(
             elevation: 0  
           ),

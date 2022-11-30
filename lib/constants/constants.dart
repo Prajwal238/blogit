@@ -6,10 +6,11 @@ class Constants {
   static const kGreyColor = Color(0xFFEEEEEE);
   static const kBlackColor = Color(0xFF000000);
   static const kDarkGreyColor = Color(0xFF9E9E9E);
-  static const kDarkBlueColor = Color(0xFF6057FF);
+  static const kGreenColor = Color.fromARGB(255, 11, 185, 40);
   static const kBorderColor = Color(0xFFEFEFEF);
 
   //text
+  static const textReadMore = 'Read More';
   static const textLogoText = "BlogIt";
   static const title = "Google Sign In";
   static const textIntro = "Writing your \n Blogs is ";

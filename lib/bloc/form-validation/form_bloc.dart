@@ -30,7 +30,7 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
     on<AgeChanged>(_onAgeChanged);
     on<FormSubmitted>(_onFormSubmitted);
     on<FormSucceeded>(_onFormSucceeded);
-    on<ResetPassword> (_onResetPassword);
+    on<ResetPassword>(_onResetPassword);
   }
 
   final RegExp _emailRegExp = RegExp(
@@ -46,7 +46,6 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
   }
 
   bool _isPasswordValid(String password) {
-    print("inside passwordvalid: ${_passwordRegExp.hasMatch(password)}");
     return _passwordRegExp.hasMatch(password);
   }
 
@@ -70,7 +69,6 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
   }
 
   _onResetPassword(ResetPassword event, Emitter<FormsValidate> emit) async {
-    
     emit(state.copyWith(
       isFormSuccessful: false,
       isFormValid: false,
@@ -80,12 +78,9 @@ class FormBloc extends Bloc<FormEvent, FormsValidate> {
       forgotPassword: event.forgotPassword,
     ));
 
-    try{
+    try {
       await _authRepo.resetPswd(state.email);
-      emit(state.copyWith(
-        isLoading: false,
-        forgotPassword: false
-      ));
+      emit(state.copyWith(isLoading: false, forgotPassword: false));
     } on FirebaseAuthException catch (e) {
       emit(state.copyWith(isLoading: false, errorMessage: e.message, isFormValid: false));
     }
