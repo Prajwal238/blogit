@@ -24,7 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       UserModel user = await _authRepo.getCurrentUser().first;
       if (user.uid != "uid") {
         String? displayName = await _authRepo.retrieveUserName(user);
-        emit(AuthSuccess(displayName: displayName));
+        emit(AuthSuccess(uid: user.uid!, displayName: displayName));
       } else {
         emit(AuthFailure());
       }

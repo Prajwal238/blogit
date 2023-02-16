@@ -27,3 +27,14 @@ class CreatingBlog extends DatabaseEvent {
   @override
   List<Object?> get props => [title, content, displayName];
 }
+
+// class SavingBlog extends DatabaseEvent {
+//   final String bid;
+//   final String uid;
+//   const SavingBlog({
+//     required this.bid,
+//     required this.uid
+//   });
+//   @override
+//   List<Object?> get props => [bid, uid];
+// }

@@ -12,8 +12,13 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   }
 
   @override
-  Future<void> saveBlogData(BlogModel blog) {
+  Future<void> storeBlogData(BlogModel blog) {
     return service.addBlogData(blog);
+  }
+
+  @override
+  Future<void> saveBlog(String bid, String uid, bool flag) {
+    return service.addToSavedBlogs(bid, uid, flag);
   }
 
   @override
@@ -25,11 +30,18 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<List<BlogModel>> retrieveBlogs() {
     return service.retrieveBlogs();
   }
+  
+  @override
+  Future<bool> isBlogSaved(String bid, String uid) {
+    return service.checkIfBlogIsSaved(bid, uid);
+  }
 }
 
 abstract class DatabaseRepository {
   Future<void> saveUserData(UserModel user);
-  Future<void> saveBlogData(BlogModel blog);
+  Future<void> storeBlogData(BlogModel blog);
+  Future<void> saveBlog(String bid, String uid, bool flag);
+  Future<bool> isBlogSaved(String bid, String uid);
   Future<List<UserModel>> retrieveUserData();
   Future<List<BlogModel>> retrieveBlogs();
 }

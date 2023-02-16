@@ -170,17 +170,19 @@ class HomeView extends StatelessWidget {
                                               state.listOfBlogs[index].title,
                                               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 6),
-                                              child: SizedBox(
-                                                height: MediaQuery.of(context).size.height * 0.15,
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Text(state.listOfBlogs[index].content,
-                                                    style: const TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.normal,
-                                                        color: Color.fromARGB(255, 70, 70, 70)),
-                                                    overflow: TextOverflow.fade),
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(6.0),
+                                                child: SizedBox(
+                                                  height: MediaQuery.of(context).size.height * 0.1,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  child: Text(state.listOfBlogs[index].content,
+                                                      style: const TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight: FontWeight.normal,
+                                                          color: Color.fromARGB(255, 70, 70, 70)),
+                                                      overflow: TextOverflow.fade),
+                                                ),
                                               ),
                                             ),
                                           ],

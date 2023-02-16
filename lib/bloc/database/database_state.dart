@@ -24,6 +24,11 @@ class BlogAddedToDatabase extends DatabaseState {
   List<Object?> get props => [];
 }
 
+// class SavedTheBlog extends DatabaseState {
+//       @override
+//   List<Object?> get props => [];
+// }
+
 class DatabaseError extends DatabaseState {
       @override
   List<Object?> get props => [];

@@ -21,7 +21,10 @@ class WelcomeView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Lottie.network('https://assets7.lottiefiles.com/packages/lf20_ljx86sv6.json'),
+                SizedBox(
+                  height: size.height * 0.4,
+                  child: Lottie.network('https://assets7.lottiefiles.com/packages/lf20_ljx86sv6.json')
+                  ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),

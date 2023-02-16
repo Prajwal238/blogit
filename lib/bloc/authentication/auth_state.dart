@@ -14,7 +14,8 @@ class AuthInitial extends AuthState {
 
 class AuthSuccess extends AuthState {
   final String? displayName;
-  const AuthSuccess({this.displayName});
+  final String uid;
+  const AuthSuccess({required this.uid, this.displayName});
 
   @override
   List<Object?> get props => [displayName];

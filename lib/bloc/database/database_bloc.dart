@@ -1,6 +1,7 @@
 import 'package:blogit/models/blog_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../models/user_model.dart';
 import '../../repositories/database_repository.dart';
@@ -13,6 +14,7 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   DatabaseBloc(this._databaseRepository) : super(DatabaseInitial()) {
     on<DatabaseFetched>(_fetchUserBlogData);
     on<CreatingBlog>(_addBlogtoFirebase);
+    // on<SavingBlog>(_saveChosenBlog);
   }
 
   _fetchUserBlogData(DatabaseFetched event, Emitter<DatabaseState> emit) async {
@@ -22,8 +24,14 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   }
 
   _addBlogtoFirebase(CreatingBlog event, Emitter<DatabaseState> emit) async {
-    BlogModel blog = BlogModel(title: event.title, content: event.content, displayName: event.displayName);
-    await _databaseRepository.saveBlogData(blog);
+    Uuid bid = const Uuid();
+    BlogModel blog = BlogModel(bid: bid.v1(),title: event.title, content: event.content, displayName: event.displayName);
+    await _databaseRepository.storeBlogData(blog);
     emit(BlogAddedToDatabase());
   }
+
+  // _saveChosenBlog(SavingBlog event, Emitter<DatabaseState> emit) async {
+  //   await _databaseRepository.saveBlog(event.bid, event.uid);
+  //   emit(SavedTheBlog());
+  // }
 }

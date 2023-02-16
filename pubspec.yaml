@@ -44,6 +44,7 @@ dependencies:
   google_fonts: ^3.0.1
   lottie: ^2.0.0
   flutter_tts: ^3.6.2
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
