@@ -35,6 +35,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<bool> isBlogSaved(String bid, String uid) {
     return service.checkIfBlogIsSaved(bid, uid);
   }
+  
+  @override
+  Future<List<BlogModel>> retrieveSavedBlogs(String uid) {
+    return service.retrieveUsersSavedBlogs(uid);
+  }
 }
 
 abstract class DatabaseRepository {
@@ -44,4 +49,5 @@ abstract class DatabaseRepository {
   Future<bool> isBlogSaved(String bid, String uid);
   Future<List<UserModel>> retrieveUserData();
   Future<List<BlogModel>> retrieveBlogs();
+  Future<List<BlogModel>> retrieveSavedBlogs(String uid);
 }

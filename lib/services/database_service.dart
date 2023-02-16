@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:blogit/models/blog_model.dart';
 import 'package:blogit/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:uuid/uuid.dart';
 
 class DatabaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -35,6 +34,20 @@ class DatabaseService {
     }
   }
 
+  Future<List<BlogModel>> retrieveUsersSavedBlogs(String uid) async {
+    late DocumentSnapshot<Map<String, dynamic>> snapshot;
+    final savedBlogs = await _db.collection("SavedBlogs").doc(uid).get().then((doc) {
+      return doc.get('savedBlogIds');
+    });
+    List<BlogModel> savedBlogsListofUser = [];
+    for(var savedblogid = 0; savedblogid < savedBlogs.length; savedblogid+=1) {
+      log("inside for loop");
+      snapshot = await _db.collection('Blogs').doc(savedBlogs[savedblogid]).get();
+      savedBlogsListofUser.add(BlogModel.fromDocumentSnapshot(snapshot));
+    }
+    return savedBlogsListofUser;
+  }
+
   Future<List<UserModel>> retrieveUserData() async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await _db.collection("Users").get();
     return snapshot.docs.map((docSnapshot) => UserModel.fromDocumentSnapshot(docSnapshot)).toList();
@@ -42,11 +55,8 @@ class DatabaseService {
 
   Future<List<BlogModel>> retrieveBlogs() async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await _db.collection("Blogs").get();
-
     return snapshot.docs.map((docSnapshot) => BlogModel.fromDocumentSnapshot(docSnapshot)).toList();
   }
-
-  //TODO: Write a function to retrieve saved blogs(and trigger this event when saved icon is pressed on nav bar)
 
   Future<String> retrieveUserName(UserModel user) async {
     DocumentSnapshot<Map<String, dynamic>> snapshot = await _db.collection("Users").doc(user.uid).get();

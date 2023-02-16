@@ -15,6 +15,13 @@ class DatabaseFetched extends DatabaseEvent {
   List<Object?> get props => [displayName];
 }
 
+class SavedBlogsFetched extends DatabaseEvent {
+  final String? uid;
+  const SavedBlogsFetched(this.uid);
+  @override
+  List<Object?> get props => [uid];
+}
+
 class CreatingBlog extends DatabaseEvent {
   final String title;
   final String content;

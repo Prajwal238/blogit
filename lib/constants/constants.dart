@@ -10,6 +10,7 @@ class Constants {
   static const kBorderColor = Color(0xFFEFEFEF);
 
   //text
+  static const textSavedCollection = " Saved Collection";
   static const textReadMore = 'Read More';
   static const textLogoText = "BlogIt";
   static const title = "Google Sign In";

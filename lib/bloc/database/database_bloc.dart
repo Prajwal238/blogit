@@ -14,6 +14,7 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   DatabaseBloc(this._databaseRepository) : super(DatabaseInitial()) {
     on<DatabaseFetched>(_fetchUserBlogData);
     on<CreatingBlog>(_addBlogtoFirebase);
+    on<SavedBlogsFetched>(_fetchUserSavedBlog);
     // on<SavingBlog>(_saveChosenBlog);
   }
 
@@ -28,6 +29,11 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     BlogModel blog = BlogModel(bid: bid.v1(),title: event.title, content: event.content, displayName: event.displayName);
     await _databaseRepository.storeBlogData(blog);
     emit(BlogAddedToDatabase());
+  }
+
+  _fetchUserSavedBlog(SavedBlogsFetched event, Emitter<DatabaseState> emit) async {
+    List<BlogModel> listofSavedBlogs = await _databaseRepository.retrieveSavedBlogs(event.uid!);
+    emit(SavedDatabaseSuccess(listofSavedBlogs));
   }
 
   // _saveChosenBlog(SavingBlog event, Emitter<DatabaseState> emit) async {

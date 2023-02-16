@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'bloc/authentication/auth_bloc.dart';
 import 'bloc/database/database_bloc.dart';
 import 'constants/constants.dart';
+import 'models/blog_model.dart';
 
 class BlogPage extends StatefulWidget {
   const BlogPage({super.key, required this.index});
@@ -42,9 +43,12 @@ class _BlogPageState extends State<BlogPage> {
               create: (context) => SaveTheBlogCubit(DatabaseRepositoryImpl()),
               child: BlocBuilder<SaveTheBlogCubit, SaveTheBlogState>(builder: (context, state) {
                 String? uid = (context.read<AuthBloc>().state as AuthSuccess).uid;
-                      var index = widget.index;
-                      String? bid = (context.read<DatabaseBloc>().state as DatabaseSuccess).listOfBlogs[index].bid;
-                      context.read<SaveTheBlogCubit>().checkBlogSavedOrNot(bid, uid);
+                var index = widget.index;
+                bool cameFromSavedCollection = context.read<DatabaseBloc>().state is SavedDatabaseSuccess;
+                String? bid = cameFromSavedCollection
+                    ? (context.read<DatabaseBloc>().state as SavedDatabaseSuccess).listOfSavedBlogs[index].bid
+                    : (context.read<DatabaseBloc>().state as DatabaseSuccess).listOfBlogs[index].bid;
+                context.read<SaveTheBlogCubit>().checkBlogSavedOrNot(bid, uid);
                 bool flag = state is BlogIsSaved;
                 return IconButton(
                     icon: Icon(
@@ -52,7 +56,6 @@ class _BlogPageState extends State<BlogPage> {
                       flag ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
                     ),
                     onPressed: () {
-          
                       context.read<SaveTheBlogCubit>().saveBlog(bid, uid, flag);
                       setState(() {
                         bookmarkPressed = true;
@@ -82,9 +85,15 @@ class _BlogPageState extends State<BlogPage> {
           ),
           BlocBuilder<DatabaseBloc, DatabaseState>(
             builder: ((context, state) {
-              if (state is DatabaseSuccess) {
+              if (state is DatabaseSuccess || state is SavedDatabaseSuccess) {
                 var index = widget.index;
-                int readTime = calculateReadTime(state.listOfBlogs[index].content);
+                late BlogModel blogList;
+                if(state is DatabaseSuccess) {
+                  blogList = state.listOfBlogs[index];
+                } else if(state is SavedDatabaseSuccess) {
+                  blogList = state.listOfSavedBlogs[index];
+                }
+                int readTime = calculateReadTime(blogList.content);
                 return DraggableScrollableSheet(
                     initialChildSize: 0.8,
                     minChildSize: 0.8,
@@ -104,7 +113,7 @@ class _BlogPageState extends State<BlogPage> {
                               Hero(
                                 tag: "Title-$index",
                                 child: Text(
-                                  state.listOfBlogs[index].title,
+                                  blogList.title,
                                   style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -122,7 +131,7 @@ class _BlogPageState extends State<BlogPage> {
                                           backgroundColor: Constants.kBlackColor,
                                           radius: 13,
                                           child: Text(
-                                            state.listOfBlogs[index].displayName![0].toUpperCase(),
+                                            blogList.displayName![0].toUpperCase(),
                                             style: const TextStyle(fontSize: 10, color: Constants.kGreyColor),
                                           ),
                                         ),
@@ -130,7 +139,7 @@ class _BlogPageState extends State<BlogPage> {
                                       Padding(
                                         padding: const EdgeInsets.only(left: 10.0),
                                         child: Text(
-                                          state.listOfBlogs[index].displayName!,
+                                          blogList.displayName!,
                                           style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                                         ),
                                       ),
@@ -143,8 +152,8 @@ class _BlogPageState extends State<BlogPage> {
                                                   (ttsstate is TextToSpeachPlaying)
                                                       ? context.read<TextToSpeachCubit>().pause()
                                                       : context.read<TextToSpeachCubit>().play(
-                                                          state.listOfBlogs[index].title +
-                                                              state.listOfBlogs[index].content);
+                                                          blogList.title +
+                                                              blogList.content);
                                                 },
                                                 icon: Icon(
                                                     color: Colors.grey,
@@ -172,7 +181,7 @@ class _BlogPageState extends State<BlogPage> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 6),
                                 child: Text(
-                                  state.listOfBlogs[index].content,
+                                  blogList.content,
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.normal,

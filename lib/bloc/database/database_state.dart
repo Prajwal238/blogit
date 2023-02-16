@@ -19,6 +19,14 @@ class DatabaseSuccess extends DatabaseState {
   List<Object?> get props => [listOfUserData,displayName];
 }
 
+class SavedDatabaseSuccess extends DatabaseState {
+  final List<BlogModel> listOfSavedBlogs;
+  const SavedDatabaseSuccess(this.listOfSavedBlogs);
+
+    @override
+  List<Object?> get props => [listOfSavedBlogs];
+}
+
 class BlogAddedToDatabase extends DatabaseState {
       @override
   List<Object?> get props => [];
