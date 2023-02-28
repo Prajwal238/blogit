@@ -1,3 +1,4 @@
+import 'package:blogit/bloc/search/search_bloc.dart';
 import 'package:blogit/repositories/auth_repository.dart';
 import 'package:blogit/repositories/database_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +28,9 @@ void main() async {
         ),
         BlocProvider(
           create: (context) => DatabaseBloc(DatabaseRepositoryImpl()),
+        ),
+        BlocProvider(
+          create: (context) => SearchBloc(DatabaseRepositoryImpl()),
         )
       ],
       child: const App(),

@@ -1,6 +1,7 @@
 import 'package:blogit/add_blog.dart';
 import 'package:blogit/blog_page.dart';
 import 'package:blogit/saved_collection.dart';
+import 'package:blogit/search.dart';
 import 'package:blogit/welcome_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,7 +67,9 @@ class HomeView extends StatelessWidget {
                       iconSize: 30.0,
                       padding: const EdgeInsets.only(right: 28.0),
                       icon: const Icon(Icons.search),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (_) => const SearchScreen()));
+                      },
                     ),
                     IconButton(
                       iconSize: 30.0,

@@ -40,6 +40,11 @@ class DatabaseRepositoryImpl implements DatabaseRepository {
   Future<List<BlogModel>> retrieveSavedBlogs(String uid) {
     return service.retrieveUsersSavedBlogs(uid);
   }
+  
+  @override
+  Future<List<BlogModel>> listBasedOnSearch(String query) {
+    return service.listBasedOnSearch(query);
+  }
 }
 
 abstract class DatabaseRepository {
@@ -50,4 +55,5 @@ abstract class DatabaseRepository {
   Future<List<UserModel>> retrieveUserData();
   Future<List<BlogModel>> retrieveBlogs();
   Future<List<BlogModel>> retrieveSavedBlogs(String uid);
+  Future<List<BlogModel>> listBasedOnSearch(String query);
 }

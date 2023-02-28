@@ -48,6 +48,14 @@ class DatabaseService {
     return savedBlogsListofUser;
   }
 
+  Future<List<BlogModel>> listBasedOnSearch(String query) async {
+    log("inside Repo: " + query);
+    QuerySnapshot<Map<String, dynamic>> snapshot = await _db.collection("Blogs").where('title', isGreaterThanOrEqualTo: query)
+    .where('title', isLessThanOrEqualTo: '$query\uf8ff').get();
+    inspect(snapshot);
+    return snapshot.docs.map((docSnapshot) => BlogModel.fromDocumentSnapshot(docSnapshot)).toList();
+  }
+
   Future<List<UserModel>> retrieveUserData() async {
     QuerySnapshot<Map<String, dynamic>> snapshot = await _db.collection("Users").get();
     return snapshot.docs.map((docSnapshot) => UserModel.fromDocumentSnapshot(docSnapshot)).toList();
